@@ -28,7 +28,9 @@ using namespace std;
 
 class Individual
 {
-    
+    friend class Parameters;
+    friend class EA;
+    friend class Simulator;
     
 protected:
     

@@ -28,13 +28,17 @@ using namespace std;
 
 class EA
 {
-    
+    friend class Parameters;
+    friend class Individual;
+    friend class Simulator;
     
 protected:
     
     
 public:
+    Parameters* pP;
     
+    void Build_Population();
     
 private:
 };

@@ -7,9 +7,27 @@
 //
 
 #include <iostream>
+#include <cstdlib>
+#include <vector>
+#include <cmath>
+#include <time.h>
+#include <stdio.h>
+#include <algorithm>
+#include <fstream>
+#include <iomanip>
+#include <cassert>
+#include <ctime>
+#include <random>
 
-int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
-    return 0;
+#include "Parameters.hpp"
+#include "Individual.hpp"
+#include "Simulator.hpp"
+#include "EA.hpp"
+
+int main()
+{
+    Parameters P;
+    Simulator S;
+    EA E;
+    E.pP = &P;
 }
