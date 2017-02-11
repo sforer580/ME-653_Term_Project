@@ -36,9 +36,34 @@ protected:
     
     
 public:
+    Parameters* pP;
+    void Initialize_Agent(Individual* pI);
+    void Simulate(Individual* PI);
     
     
 private:
 };
+
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+//-------------------------------------------------------------------------
+//Runs the entire simulation process
+void Simulator::Initialize_Agent(Individual* pI)
+{
+    pI->y2.push_back(0);
+    pI->y1.push_back(pP->spring_free_length);
+}
+
+
+//-------------------------------------------------------------------------
+//Runs the entire simulation process
+void Simulator::Simulate(Individual* pI)
+{
+    //cout << "IN" << "\t" << pI->K1 << endl;
+    //pI->K1 = 1;
+    //cout << "OUT" <<"\t" << pI->K1 << endl;
+}
 
 #endif /* Simulator_hpp */

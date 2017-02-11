@@ -26,8 +26,11 @@
 
 int main()
 {
+    srand(time(NULL));
     Parameters P;
     Simulator S;
     EA E;
     E.pP = &P;
+    E.Build_Population();
+    E.Run_Simulation();
 }

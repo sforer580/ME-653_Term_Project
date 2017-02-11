@@ -36,7 +36,18 @@ protected:
     
     
 public:
-    
+    double K1;
+    double K2;
+    double C1;
+    double C2;
+    vector<double> y1;
+    vector<double> y1_d;
+    vector<double> y2;
+    vector<double> y2_d;
+    vector<double> accel;
+    vector<double> x;
+    vector<double> del_y;
+    double fitness;
     
 private:
 };

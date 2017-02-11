@@ -36,10 +36,28 @@ protected:
     
     
 public:
-    int num_indv = 10;
+    //EA Parameters
+    int num_indv = 1;
+    double K1_min = 1;                          //[units]
+    double K1_max = 10;                         //[units]
+    double K2_min = 1;                          //[units]
+    double K2_max = 10;                         //[units]
+    double C1_min = 1;                          //[units]
+    double C1_max = 10;                         //[units]
+    double C2_min = 1;                          //[units]
+    double C2_max = 10;                         //[units]
     int gen_max = 300;
-    double time_max = 10;
-    double delta_t = 0.1;
+    
+    //Simulator Parameters
+    double time_max = 10;                       //[seconds]
+    double delta_t = 0.1;                       //[seconds]
+    double spring_free_length = 1;              //[meters]
+    double amp = 1;                             //[meters]
+    double period = 1;                          //[second]
+    double lamda = 1;                           //[meters]
+    double freq = 1/period;                     //[hertz]
+    double travel_speed = freq*lamda;           //[meters/seconds]
+
     
     
 private:
