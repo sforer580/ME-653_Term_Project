@@ -76,29 +76,6 @@ void Simulator::Get_New_x(double t, int ts, Individual* pI)
     pI->x.push_back(pI->x.at(ts-1)+pP->delta_t);
 }
 
-//-------------------------------------------------------------------------
-//Gets the new acceleration
-void Simulator::Get_New_Accel(double t, int ts, Individual* pI)
-{
-    
-}
-
-
-//-------------------------------------------------------------------------
-//Gets the new y1
-void Simulator::Get_New_y1(double t, int ts, Individual* pI)
-{
-    
-}
-
-
-//-------------------------------------------------------------------------
-//Gets the new y1 dot
-void Simulator::Get_New_y1_d(double t, int ts, Individual* pI)
-{
-    
-}
-
 
 //-------------------------------------------------------------------------
 //Gets the new y2
@@ -122,6 +99,36 @@ void Simulator::Get_New_y2_d(double t, int ts, Individual* pI)
     double B = pI->x.at(ts);
     double C = pP->travel_speed*t;
     pI->y2_d.push_back(A*(B+C));
+}
+
+
+//-------------------------------------------------------------------------
+//Gets the new acceleration
+void Simulator::Get_New_Accel(double t, int ts, Individual* pI)
+{
+    double A = pI->y2.at(ts) - pI->y1.at(ts-1);
+    double B = pI->y2_d.at(ts) - pI->y1_d.at(ts-1);
+    double C = pI->K1*A;
+    double D = pI->K2*A*A*A;
+    double E = pI->C1*B;
+    double F = pI->C2*B*B*B;
+    pI->accel.push_back((C+D+E+F)/pP->mass);
+}
+
+
+//-------------------------------------------------------------------------
+//Gets the new y1
+void Simulator::Get_New_y1(double t, int ts, Individual* pI)
+{
+    
+}
+
+
+//-------------------------------------------------------------------------
+//Gets the new y1 dot
+void Simulator::Get_New_y1_d(double t, int ts, Individual* pI)
+{
+    
 }
 
 
