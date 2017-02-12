@@ -38,14 +38,15 @@ protected:
 public:
     //EA Parameters
     int num_indv = 1;
-    double K1_min = 1;                          //[units]
-    double K1_max = 10;                         //[units]
-    double K2_min = 1;                          //[units]
-    double K2_max = 10;                         //[units]
-    double C1_min = 1;                          //[units]
-    double C1_max = 10;                         //[units]
-    double C2_min = 1;                          //[units]
-    double C2_max = 10;                         //[units]
+    double K1_min = 1;                          //[Newton/meters]
+    double K1_max = 10;                         //[Newton/meters]
+    double K2_min = 1;                          //[Newton/meters]
+    double K2_max = 10;                         //[Newton/meters]
+    double C1_min = 1;                          //[kilogram/second]
+    double C1_max = 10;                         //[kilogram/second]
+    double C2_min = 1;                          //[kilogram/second]
+    double C2_max = 10;                         //[kilogram/second]
+    double mass = 1;                            //[kilogram]
     int gen_max = 300;
     
     //Simulator Parameters
