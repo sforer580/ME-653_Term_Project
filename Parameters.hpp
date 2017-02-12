@@ -38,26 +38,28 @@ protected:
 public:
     //EA Parameters
     int num_indv = 1;
-    double K1_min = 1;                          //[Newton/meters]
-    double K1_max = 10;                         //[Newton/meters]
-    double K2_min = 1;                          //[Newton/meters]
-    double K2_max = 10;                         //[Newton/meters]
-    double C1_min = 1;                          //[kilogram/second]
-    double C1_max = 10;                         //[kilogram/second]
-    double C2_min = 1;                          //[kilogram/second]
-    double C2_max = 10;                         //[kilogram/second]
-    double mass = 1;                            //[kilogram]
+    double spring_free_length = 1;                              //[meters]
+    double K1_min = 1;                                          //[Newton/meters]
+    double K1_max = 10;                                         //[Newton/meters]
+    double K2_min = 1;                                          //[Newton/meters]
+    double K2_max = 10;                                         //[Newton/meters]
+    double C1_min = 1;                                          //[kilogram/second]
+    double C1_max = 10;                                         //[kilogram/second]
+    double C2_min = 1;                                          //[kilogram/second]
+    double C2_max = 10;                                         //[kilogram/second]
+    double mass = 1;                                            //[kilogram]
     int gen_max = 1;
     
     //Simulator Parameters
-    double time_max = 1;                       //[seconds]
-    double delta_t = 0.1;                       //[seconds]
-    double spring_free_length = 1;              //[meters]
-    double amp = 1;                             //[meters]
-    double period = 1;                          //[second]
-    double lamda = 1;                           //[meters]
-    double freq = 1/period;                     //[hertz]
-    double travel_speed = freq*lamda;           //[meters/seconds]
+    double time_max = 1;                                        //[seconds]
+    double delta_t = 0.1;                                       //[seconds]
+    double amp = 1;                                             //[meters]
+    double period = 1;                                          //[second]
+    double lamda = 1;                                           //[meters]
+    double freq = 1/period;                                     //[hertz]
+    double travel_speed = freq*lamda;                           //[meters/second]
+    double omega = 2*3.14159*freq;                              //[radians/second]
+    double delta_x = (travel_speed*delta_t)/(freq*period);      //[meters]
 
     
     
