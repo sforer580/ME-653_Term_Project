@@ -42,6 +42,11 @@ public:
     
     void Build_Population();
     void Run_Simulation();
+    void Run_Program();
+    
+    //Statistics
+    vector<double> best_fitness;            //keeps track of the best individuals fitness for each generation
+    vector<double> sys_design;              //keeps track of the best individuals design for each generation
     
 private:
 };
@@ -84,5 +89,16 @@ void EA::Run_Simulation()
     }
 }
 
+
+//-------------------------------------------------------------------------
+//Runs the entire program
+void EA::Run_Program()
+{
+    Build_Population();
+    for (int gen=0; gen<pP->gen_max; gen++)
+    {
+        Run_Simulation();
+    }
+}
 
 #endif /* EA_hpp */

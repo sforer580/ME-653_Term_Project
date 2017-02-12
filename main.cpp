@@ -31,6 +31,5 @@ int main()
     Simulator S;
     EA E;
     E.pP = &P;
-    E.Build_Population();
-    E.Run_Simulation();
+    E.Run_Program();
 }

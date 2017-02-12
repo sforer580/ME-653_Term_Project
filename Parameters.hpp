@@ -47,10 +47,10 @@ public:
     double C2_min = 1;                          //[kilogram/second]
     double C2_max = 10;                         //[kilogram/second]
     double mass = 1;                            //[kilogram]
-    int gen_max = 300;
+    int gen_max = 1;
     
     //Simulator Parameters
-    double time_max = 10;                       //[seconds]
+    double time_max = 1;                       //[seconds]
     double delta_t = 0.1;                       //[seconds]
     double spring_free_length = 1;              //[meters]
     double amp = 1;                             //[meters]
