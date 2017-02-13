@@ -51,7 +51,7 @@ public:
     int gen_max = 1;
     
     //Simulator Parameters
-    double time_max = 1;                                        //[seconds]
+    double time_max = 10;                                        //[seconds]
     double delta_t = 0.1;                                       //[seconds]
     double amp = 1;                                             //[meters]
     double period = 1;                                          //[second]
@@ -59,7 +59,7 @@ public:
     double freq = 1/period;                                     //[hertz]
     double travel_speed = freq*lamda;                           //[meters/second]
     double omega = 2*3.14159*freq;                              //[radians/second]
-    double delta_x = (travel_speed*delta_t)/(freq*period);      //[meters]
+    double delta_x = (travel_speed*delta_t);                    //[meters]
 
     
     
