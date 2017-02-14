@@ -39,20 +39,20 @@ public:
     //EA Parameters
     int num_indv = 1;
     double spring_free_length = 1;                              //[meters]
-    double K1_min = 1;                                          //[Newton/meters]
-    double K1_max = 10;                                         //[Newton/meters]
-    double K2_min = 1;                                          //[Newton/meters]
-    double K2_max = 10;                                         //[Newton/meters]
-    double C1_min = 1;                                          //[kilogram/second]
-    double C1_max = 10;                                         //[kilogram/second]
-    double C2_min = 1;                                          //[kilogram/second]
-    double C2_max = 10;                                         //[kilogram/second]
+    double K1_min = .1;                                          //[Newton/meters]
+    double K1_max = 1;                                       //[Newton/meters]
+    double K2_min = .1;                                          //[Newton/meters]
+    double K2_max = 1;                                       //[Newton/meters]
+    double C1_min = .1;                                          //[kilogram/second]
+    double C1_max = 1;                                       //[kilogram/second]
+    double C2_min = .1;                                          //[kilogram/second]
+    double C2_max = 1;                                       //[kilogram/second]
     double mass = 1;                                            //[kilogram]
     int gen_max = 1;
     
     //Simulator Parameters
-    double time_max = 10;                                        //[seconds]
-    double delta_t = 0.01;                                       //[seconds]
+    double time_max = 10;                                       //[seconds]
+    double delta_t = 0.01;                                      //[seconds]
     double amp = 1;                                             //[meters]
     double period = 1;                                          //[second]
     double lamda = 1;                                           //[meters]
