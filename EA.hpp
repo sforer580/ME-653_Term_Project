@@ -104,11 +104,13 @@ void EA::Run_Program()
             cout << agent.at(0).accel.at(s) << "\t";
         }
         cout << endl;
+        cout << endl;
         cout << "Y1" << endl;
         for (int s=0; s<agent.at(0).y1.size(); s++)
         {
             cout << agent.at(0).y1.at(s) << "\t";
         }
+        cout << endl;
         cout << endl;
         cout << "Y1 DOT" << endl;
         for (int s=0; s<agent.at(0).y1_d.size(); s++)
@@ -116,11 +118,13 @@ void EA::Run_Program()
             cout << agent.at(0).y1_d.at(s) << "\t";
         }
         cout << endl;
+        cout << endl;
         cout << "Y2" << endl;
         for (int s=0; s<agent.at(0).y2.size(); s++)
         {
             cout << agent.at(0).y2.at(s) << "\t";
         }
+        cout << endl;
         cout << endl;
         cout << "Y2 DOT" << endl;
         for (int s=0; s<agent.at(0).y2_d.size(); s++)
@@ -128,11 +132,14 @@ void EA::Run_Program()
             cout << agent.at(0).y2_d.at(s) << "\t";
         }
         cout << endl;
+        cout << endl;
         cout << "DELTA Y" << endl;
         for (int s=0; s<agent.at(0).del_y.size(); s++)
         {
             cout << agent.at(0).del_y.at(s) << "\t";
         }
+        cout << endl;
+        cout << endl;
     }
 }
 

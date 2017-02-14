@@ -52,7 +52,7 @@ public:
     
     //Simulator Parameters
     double time_max = 10;                                        //[seconds]
-    double delta_t = 0.1;                                       //[seconds]
+    double delta_t = 0.01;                                       //[seconds]
     double amp = 1;                                             //[meters]
     double period = 1;                                          //[second]
     double lamda = 1;                                           //[meters]

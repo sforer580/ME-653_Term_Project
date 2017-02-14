@@ -97,13 +97,16 @@ void Simulator::Get_New_x(double t, int ts, Individual* pI)
 void Simulator::Get_New_y2(double t, int ts, Individual* pI)
 {
     int pi = 3.14159;
-    double A = pP->amp*sin((2*pi)/(pP->travel_speed*pP->period));
-    double B = pI->x.at(ts-1);
-    double C = pP->delta_x;
-    double D = pP->travel_speed*t;
-    pI->y2.push_back(A*(B+C-D));
-    assert (pI->y2.at(ts) <= pP->amp);
-    assert (pI->y2.at(ts) >= -pP->amp);
+    //double A = pP->amp*sin((2*pi)/(pP->travel_speed*pP->period));
+    double A = (2*pi)/(pP->lamda);
+    //double B = pI->x.at(ts-1);
+    double B = pI->x.at(ts);
+    //double C = pP->delta_x;
+    double C = pP->travel_speed*t;
+    //pI->y2.push_back(A*(B+C-D));
+    pI->y2.push_back(pP->amp*sin(A*(B+C)));
+    assert (pI->y2.at(ts) <= pP->amp+.2);
+    assert (pI->y2.at(ts) >= -pP->amp-.2);
 }
 
 
@@ -112,10 +115,12 @@ void Simulator::Get_New_y2(double t, int ts, Individual* pI)
 void Simulator::Get_New_y2_d(double t, int ts, Individual* pI)
 {
     int pi = 3.14159;
-    double A = pP->omega*pP->amp*cos((2*pi)/(pP->lamda));
-    double B = pI->x.at(ts-1);
-    double C = pP->travel_speed*t;
-    pI->y2_d.push_back(A*(B+C));
+    double A = pP->omega*pP->amp;
+    //double B = pI->x.at(ts-1);
+    double B = ((2*pi)/(pP->lamda));
+    double C = pI->x.at(ts);
+    double D = pP->travel_speed*t;
+    pI->y2_d.push_back(A*cos(B*(C+D)));
 }
 
 
