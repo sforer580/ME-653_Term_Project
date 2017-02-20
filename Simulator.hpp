@@ -46,6 +46,7 @@ public:
     void Get_New_y1_d(double t, int ts, Individual* pI);
     void Store_Delta_y(double t, int ts, Individual* pI);
     void Run_Time_Step(double t, int ts, Individual* pI);
+    void Assign_Fitness(Individual* pI);
     void Simulate(Individual* PI);
     
     
@@ -149,6 +150,10 @@ void Simulator::Get_New_y1(double t, int ts, Individual* pI)
     double A = pI->y1_d.at(ts)*t;
     double B = pI->y1_d.at(ts)*(t-pP->delta_t);
     pI->y1.push_back(A-B);
+    if (pI->y1 < pI->y2)
+    {
+        pI->y1 = pI->y2;
+    }
 }
 
 
@@ -175,6 +180,19 @@ void Simulator::Run_Time_Step(double t, int ts, Individual* pI)
 
 
 //-------------------------------------------------------------------------
+//Assigns the fitness to the individual
+void Simulator::Assign_Fitness(Individual* pI)
+{
+    pI->fitness = 0;
+    for (int i=0; i<pI->del_y.size(); i++)
+    {
+        pI->fitness += pI->del_y.at(i);
+    }
+    //cout << pI->fitness << endl;
+}
+
+
+//-------------------------------------------------------------------------
 //Runs the entire simulation process
 void Simulator::Simulate(Individual* pI)
 {
@@ -193,6 +211,7 @@ void Simulator::Simulate(Individual* pI)
         ts += 1;
         t += pP->delta_t;
     }
+    Assign_Fitness(pI);
     //cout << "IN" << "\t" << pI->K1 << endl;
     //pI->K1 = 1;
     //cout << "OUT" <<"\t" << pI->K1 << endl;

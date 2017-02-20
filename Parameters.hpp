@@ -37,27 +37,27 @@ protected:
     
 public:
     //EA Parameters
-    int num_indv = 2;
+    int num_indv = 50;
     double spring_free_length = 1;                              //[meters]
-    double K1_min = 2500;                                       //[Newton/meters]
-    double K1_max = 2700;                                       //[Newton/meters]
-    double K1_range = 0.5;                                      //[Newton/meters]
-    double K2_min = 2500;                                       //[Newton/meters]
-    double K2_max = 2700;                                       //[Newton/meters]
-    double K2_range = 0.5;                                      //[Newton/meters]
-    double C1_min = 2500;                                       //[kilogram/second]
-    double C1_max = 2700;                                       //[kilogram/second]
-    double C1_range = 0.5;                                      //[Newton/meters]
-    double C2_min = 2500;                                       //[kilogram/second]
-    double C2_max = 2700;                                       //[kilogram/second]
-    double C2_range = 0.5;                                      //[Newton/meters]
+    double K1_min = 2000;                                       //[Newton/meters]
+    double K1_max = 3000;                                       //[Newton/meters]
+    double K1_range = 10;                                       //[Newton/meters]
+    double K2_min = 2000;                                       //[Newton/meters]
+    double K2_max = 3000;                                       //[Newton/meters]
+    double K2_range = 10;                                       //[Newton/meters]
+    double C1_min = 2000;                                       //[kilogram/second]
+    double C1_max = 3000;                                       //[kilogram/second]
+    double C1_range = 10;                                       //[Newton/meters]
+    double C2_min = 2000;                                       //[kilogram/second]
+    double C2_max = 3000;                                       //[kilogram/second]
+    double C2_range = 10;                                       //[Newton/meters]
     double mass = 1600;                                         //[kilogram]
-    int gen_max = 1;
-    double mutation_rate = .5;                                  //[num*100=>%]
+    int gen_max = 50;
+    double mutation_rate = 0.5;                                 //[num*100=>%]
     int to_kill = num_indv/2;
     
     //Simulator Parameters
-    double time_max = 10;                                       //[seconds]
+    double time_max = 5;                                       //[seconds]
     double delta_t = 0.01;                                      //[seconds]
     double amp = 1;                                             //[meters]
     double period = 1;                                          //[second]
