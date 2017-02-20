@@ -74,20 +74,20 @@ void Simulator::Initialize_Agent(Individual* pI)
 //Gets the new acceleration
 void Simulator::Get_New_Accel(double t, int ts, Individual* pI)
 {
-    double A = pI->y2.at(ts-1) - (pI->y1.at(ts-1));
+    double A = pI->y2.at(ts-1) + pP->spring_free_length - (pI->y1.at(ts-1));
     double B = pI->y2_d.at(ts-1) - pI->y1_d.at(ts-1);
     double C = pI->K1*A;
     double D = pI->K2*A*A*A;
     double E = pI->C1*B;
     double F = pI->C2*B*B*B;
     
-    cout << "-----" << endl;
-    cout << A << endl;
-    cout << B << endl;
-    cout << C << endl;
-    cout << D << endl;
-    cout << E << endl;
-    cout << F << endl;
+    //cout << "-----" << endl;
+    //cout << A << endl;
+    //cout << B << endl;
+    //cout << C << endl;
+    //cout << D << endl;
+    //cout << E << endl;
+    //cout << F << endl;
     pI->accel.push_back((C+D+E+F)/pP->mass);
 }
 

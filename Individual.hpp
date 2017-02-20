@@ -48,6 +48,7 @@ public:
     vector<double> x;
     vector<double> del_y;
     double fitness;
+    int age;
     
 private:
 };

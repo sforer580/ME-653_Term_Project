@@ -42,6 +42,9 @@ public:
     
     void Build_Population();
     void Run_Simulation();
+    int binary_select();
+    void mutation(Individual &M);
+    void natural_selection();
     void Run_Program();
     
     //Statistics
@@ -86,6 +89,70 @@ void EA::Run_Simulation()
         pI = & agent.at(i);
         S.Simulate(pI);
         //cout << "AFTER" << "\t" << agent.at(i).K1 << endl;      //note that agent information is changed in simulation
+    }
+}
+
+
+//-------------------------------------------------------------------------
+//randomly selects two individuals and decides which one will die based on their fitness
+int EA::binary_select()
+{
+    int loser;
+    int index_1 = rand() % agent.size();
+    int index_2 = rand() % agent.size();
+    while (index_1 == index_2)
+    {
+        index_2 = rand() % agent.size();
+    }
+    if(agent.at(index_1).fitness < agent.at(index_2).fitness)
+    {
+        loser = index_2;
+        //cout << "loser" << "\t" <<  "agent" << "\t" << index_2 << endl;
+    }
+    else
+    {
+        loser = index_1;
+        //cout << "loser" << "\t" <<  "agent" << "\t" << index_1 << endl;
+    }
+    return loser;
+}
+
+
+//-------------------------------------------------------------------------
+//mutates the copies of the winning individuals
+void EA::mutation(Individual &M)
+{
+    double random = ((double)rand()/RAND_MAX);
+    if (random <= pP->mutation_rate)
+    {
+        double R1 = ((double)rand()/RAND_MAX) * pP->K1_range;
+        double R2 = ((double)rand()/RAND_MAX) * pP->K1_range;
+        M.K1 = M.K1 + (R1-R2);
+    }
+}
+
+
+//-------------------------------------------------------------------------
+//runs the entire natural selectiona dn mutation process
+void EA::natural_selection()
+{
+    int kill;
+    for(int k=0; k<pP->to_kill; k++)
+    {
+        kill = binary_select();
+        agent.erase(agent.begin() + kill);
+    }
+    
+    int to_replicate = pP->to_kill;
+    for (int rep=0; rep<to_replicate; rep++)
+    {
+        Individual M;
+        int spot = rand() % agent.size();
+        M = agent.at(spot);
+        //cout << "cp" << endl;
+        mutation(M);
+        agent.push_back(M);
+        agent.at(agent.size()-1).age = 0;
     }
 }
 
@@ -140,6 +207,7 @@ void EA::Run_Program()
         }
         cout << endl;
         cout << endl;
+        natural_selection();
     }
 }
 
