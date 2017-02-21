@@ -54,10 +54,10 @@ public:
     vector<double> best_fitness;            //keeps track of the best individuals fitness for each generation
     vector<double> sys_design;              //keeps track of the best individuals design for each generation
     
+    void Write_Parameters_To_txt_File();
     void Store_Best_Individual();
     void Write_Best_fitness_To_txt_File();
     void Write_Best_Individual_To_txt_File();
-    void Write_Parameters_To_txt_File();
     void Run_Text_files();
     
 private:
@@ -259,15 +259,59 @@ void EA::Store_Best_Individual()
 
 
 //-------------------------------------------------------------------------
+//Writes the parameters to txt files
+void EA::Write_Parameters_To_txt_File()
+{
+    ofstream File1;
+    File1.open("Parameters.txt");
+    File1 << "EA Parameters" << endl;
+    File1 << "--------------------------" << endl;
+    File1 << "Number of individual" << "\t" << pP->num_indv << endl;
+    File1 << "Number of generations" << "\t" << endl;
+    File1 << "Mutation rate" << "\t" << pP->mutation_rate << endl;
+    File1 << "To kill" << "\t" << pP->to_kill << endl;
+    File1 << "Spring Length" << "\t" << pP->spring_free_length << "\t" << "[meters]" << endl;
+    File1 << "K1 min" << "\t" << pP->K1_min << "\t" << "[Newton/meters]" << endl;
+    File1 << "K1 max" << "\t" << pP->K1_max << "\t" << "[Newton/meters]" << endl;
+    File1 << "K1 range" << "\t" << pP->K1_range << "\t" << "[Newton/meters]" << endl;
+    File1 << "K2 min" << "\t" << pP->K2_min << "\t" << "[Newton/meters]" << endl;
+    File1 << "K2 max" << "\t" << pP->K2_max << "\t" << "[Newton/meters]" << endl;
+    File1 << "K2 range" << "\t" << pP->K2_range << "\t" << "[Newton/meters]" << endl;
+    File1 << "C1 min" << "\t" << pP->C1_min << "\t" << "[kilogram/second]" << endl;
+    File1 << "C1 max" << "\t" << pP->C1_max << "\t" << "[kilogram/second]" << endl;
+    File1 << "C1 range" << "\t" << pP->C1_range << "\t" << "[kilogram/second]" << endl;
+    File1 << "C2 min" << "\t" << pP->C2_min << "\t" << "[kilogram/second]" << endl;
+    File1 << "C2 max" << "\t" << pP->C2_max << "\t" << "[kilogram/second]" << endl;
+    File1 << "C2 range" << "\t" << pP->C2_range << "\t" << "[kilogram/second]" << endl;
+    File1 << "Mass" << "\t" << pP->mass << "\t" << "[kilogram]" << endl;
+    File1 << endl;
+    
+    File1 << "Simulator Parameters" << endl;
+    File1 << "--------------------------" << endl;
+    File1 << "Simulation time" << "\t" << pP->time_max << "\t" << "[seconds]" << endl;
+    File1 << "Sampling time" << "\t" << pP->delta_t << "\t" << "[seconds]" << endl;
+    File1 << "Input amplitude" << "\t" << pP->amp << "\t" << "[meters]" << endl;
+    File1 << "Input period" << "\t" << pP->period << "\t" << "[seconds]" << endl;
+    File1 << "Wavelength" << "\t" << pP->lamda << "\t" << "[meters]" << endl;
+    File1 << "Wave frequency" << "\t" << pP->freq << "\t" << "[hertz]" << endl;
+    File1 << "Wave travel speed" << "\t" << pP->travel_speed << "\t" << "[meters/second]" << endl;
+    File1 << "Omega" << "\t" << pP->omega << "\t" << "[radians/second]" << endl;
+    File1 << "Delta X" << "\t" << pP->delta_x << "\t" << "[meters]" << endl;
+    File1.close();
+}
+
+
+//-------------------------------------------------------------------------
 //writes the best fitness for each generation to a txt file
 void EA::Write_Best_fitness_To_txt_File()
 {
-    ofstream File1;
-    File1.open("Best_Fitness.txt");
+    ofstream File2;
+    File2.open("Best_Fitness.txt");
     for (int s=0; s<best_fitness.size(); s++)
     {
-        File1 << best_fitness.at(s) << "\t";
+        File2 << best_fitness.at(s) << "\t";
     }
+    File2.close();
 }
 
 
@@ -275,112 +319,77 @@ void EA::Write_Best_fitness_To_txt_File()
 //Writes the best individual to txt files
 void EA::Write_Best_Individual_To_txt_File()
 {
-    ofstream File2;
-    File2.open("Best_System_Design.txt");
-    File2 << "K1" << "\t" << sys_design.at(0) << "\t";
-    File2 << "K2" << "\t" << sys_design.at(1) << "\t";
-    File2 << "C1" << "\t" << sys_design.at(2) << "\t";
-    File2 << "C2" << "\t" << sys_design.at(3) << "\t";
-    File2.close();
-    
     ofstream File3;
-    File3.open("Best_Individual_y1.txt");
-    for (int s=0; s<agent.at(0).y1.size(); s++)
-    {
-        File3 << agent.at(0).y1.at(s) << "\t";
-    }
+    File3.open("Best_System_Design.txt");
+    File3 << "K1" << "\t" << sys_design.at(0) << endl;
+    File3 << "K2" << "\t" << sys_design.at(1) << endl;
+    File3 << "C1" << "\t" << sys_design.at(2) << endl;
+    File3 << "C2" << "\t" << sys_design.at(3) << endl;
     File3.close();
     
     ofstream File4;
-    File4.open("Best_Individual_y1_d.txt");
-    for (int s=0; s<agent.at(0).y1_d.size(); s++)
+    File4.open("Best_Individual_y1.txt");
+    for (int s=0; s<agent.at(0).y1.size(); s++)
     {
-        File4 << agent.at(0).y1_d.at(s) << "\t";
+        File4 << agent.at(0).y1.at(s) << "\t";
     }
     File4.close();
     
     ofstream File5;
-    File5.open("Best_Individual_y2.txt");
-    for (int s=0; s<agent.at(0).y2.size(); s++)
+    File5.open("Best_Individual_y1_d.txt");
+    for (int s=0; s<agent.at(0).y1_d.size(); s++)
     {
-        File5 << agent.at(0).y2.at(s) << "\t";
+        File5 << agent.at(0).y1_d.at(s) << "\t";
     }
     File5.close();
     
     ofstream File6;
-    File6.open("Best_Individual_y2_d.txt");
-    for (int s=0; s<agent.at(0).y2_d.size(); s++)
+    File6.open("Best_Individual_y1_dd.txt");
+    for (int s=0; s<agent.at(0).y1_dd.size(); s++)
     {
-        File6 << agent.at(0).y2_d.at(s) << "\t";
+        File6 << agent.at(0).y1_dd.at(s) << "\t";
     }
     File6.close();
     
     ofstream File7;
-    File7.open("Best_Individual_accel.txt");
-    for (int s=0; s<agent.at(0).accel.size(); s++)
+    File7.open("Best_Individual_y2.txt");
+    for (int s=0; s<agent.at(0).y2.size(); s++)
     {
-        File7 << agent.at(0).accel.at(s) << "\t";
+        File7 << agent.at(0).y2.at(s) << "\t";
     }
     File7.close();
     
     ofstream File8;
-    File8.open("Best_Individual_x.txt");
-    for (int s=0; s<agent.at(0).x.size(); s++)
+    File8.open("Best_Individual_y2_d.txt");
+    for (int s=0; s<agent.at(0).y2_d.size(); s++)
     {
-        File8 << agent.at(0).x.at(s) << "\t";
+        File8 << agent.at(0).y2_d.at(s) << "\t";
     }
     File8.close();
     
     ofstream File9;
-    File9.open("Best_Individual_del_y.txt");
-    for (int s=0; s<agent.at(0).del_y.size(); s++)
+    File9.open("Best_Individual_y2_dd.txt");
+    for (int s=0; s<agent.at(0).y2_dd.size(); s++)
     {
-        File9 << agent.at(0).del_y.at(s) << "\t";
+        File9 << agent.at(0).y2_dd.at(s) << "\t";
     }
     File9.close();
-}
-
-
-//-------------------------------------------------------------------------
-//Writes the parameters to txt files
-void EA::Write_Parameters_To_txt_File()
-{
-    ofstream File10;
-    File10.open("Parameters.txt");
-    File10 << "EA Parameters" << endl;
-    File10 << "--------------------------" << endl;
-    File10 << "Number of individual" << "\t" << pP->num_indv << endl;
-    File10 << "Number of generations" << "\t" << endl;
-    File10 << "Mutation rate" << "\t" << pP->mutation_rate << endl;
-    File10 << "To kill" << "\t" << pP->to_kill << endl;
-    File10 << "Spring Length" << "\t" << pP->spring_free_length << "\t" << "[meters]" << endl;
-    File10 << "K1 min" << "\t" << pP->K1_min << "\t" << "[Newton/meters]" << endl;
-    File10 << "K1 max" << "\t" << pP->K1_max << "\t" << "[Newton/meters]" << endl;
-    File10 << "K1 range" << "\t" << pP->K1_range << "\t" << "[Newton/meters]" << endl;
-    File10 << "K2 min" << "\t" << pP->K2_min << "\t" << "[Newton/meters]" << endl;
-    File10 << "K2 max" << "\t" << pP->K2_max << "\t" << "[Newton/meters]" << endl;
-    File10 << "K2 range" << "\t" << pP->K2_range << "\t" << "[Newton/meters]" << endl;
-    File10 << "C1 min" << "\t" << pP->C1_min << "\t" << "[kilogram/second]" << endl;
-    File10 << "C1 max" << "\t" << pP->C1_max << "\t" << "[kilogram/second]" << endl;
-    File10 << "C1 range" << "\t" << pP->C1_range << "\t" << "[kilogram/second]" << endl;
-    File10 << "C2 min" << "\t" << pP->C2_min << "\t" << "[kilogram/second]" << endl;
-    File10 << "C2 max" << "\t" << pP->C2_max << "\t" << "[kilogram/second]" << endl;
-    File10 << "C2 range" << "\t" << pP->C2_range << "\t" << "[kilogram/second]" << endl;
-    File10 << "Mass" << "\t" << pP->mass << "\t" << "[kilogram]" << endl;
-    File10 << endl;
     
-    File10 << "Simulator Parameters" << endl;
-    File10 << "--------------------------" << endl;
-    File10 << "Simulation time" << "\t" << pP->time_max << "\t" << "[seconds]" << endl;
-    File10 << "Sampling time" << "\t" << pP->delta_t << "\t" << "[seconds]" << endl;
-    File10 << "Input amplitude" << "\t" << pP->amp << "\t" << "[meters]" << endl;
-    File10 << "Input period" << "\t" << pP->period << "\t" << "[seconds]" << endl;
-    File10 << "Wavelength" << "\t" << pP->lamda << "\t" << "[meters]" << endl;
-    File10 << "Wave frequency" << "\t" << pP->freq << "\t" << "[hertz]" << endl;
-    File10 << "Wave travel speed" << "\t" << pP->travel_speed << "\t" << "[meters/second]" << endl;
-    File10 << "Omega" << "\t" << pP->omega << "\t" << "[radians/second]" << endl;
-    File10 << "Delta X" << "\t" << pP->delta_x << "\t" << "[meters]" << endl;
+    ofstream File10;
+    File10.open("Best_Individual_x.txt");
+    for (int s=0; s<agent.at(0).x.size(); s++)
+    {
+        File10 << agent.at(0).x.at(s) << "\t";
+    }
     File10.close();
+    
+    ofstream File11;
+    File11.open("Best_Individual_del_y.txt");
+    for (int s=0; s<agent.at(0).del_y.size(); s++)
+    {
+        File11 << agent.at(0).del_y.at(s) << "\t";
+    }
+    File11.close();
 }
 
 
@@ -402,9 +411,10 @@ void EA::Reset_Population()
     {
         agent.at(i).y1.clear();
         agent.at(i).y1_d.clear();
+        agent.at(i).y1_dd.clear();
         agent.at(i).y2.clear();
         agent.at(i).y2_d.clear();
-        agent.at(i).accel.clear();
+        agent.at(i).y2_dd.clear();
         agent.at(i).x.clear();
         agent.at(i).del_y.clear();
         agent.at(i).fitness = 0;
@@ -419,111 +429,130 @@ void EA::Run_Program()
     Build_Population();
     for (int gen=0; gen<pP->gen_max; gen++)
     {
-        cout << "GENERATION" << "\t" << gen << endl;
+        if (gen % 100 == 0)
+        {
+            cout << "GENERATION" << "\t" << gen << endl;
+        }
         if (gen < pP->gen_max-1)
         {
             Run_Simulation();
             /*
-             cout << "Acceleration" << endl;
-             for (int s=0; s<agent.at(0).y1.size(); s++)
-             {
-             cout << agent.at(0).accel.at(s) << "\t";
-             }
-             cout << endl;
-             cout << endl;
-             cout << "Y1" << endl;
-             for (int s=0; s<agent.at(0).y1.size(); s++)
-             {
-             cout << agent.at(0).y1.at(s) << "\t";
-             }
-             cout << endl;
-             cout << endl;
-             cout << "Y1 DOT" << endl;
-             for (int s=0; s<agent.at(0).y1_d.size(); s++)
-             {
-             cout << agent.at(0).y1_d.at(s) << "\t";
-             }
-             cout << endl;
-             cout << endl;
-             cout << "Y2" << endl;
-             for (int s=0; s<agent.at(0).y2.size(); s++)
-             {
-             cout << agent.at(0).y2.at(s) << "\t";
-             }
-             cout << endl;
-             cout << endl;
-             cout << "Y2 DOT" << endl;
-             for (int s=0; s<agent.at(0).y2_d.size(); s++)
-             {
-             cout << agent.at(0).y2_d.at(s) << "\t";
-             }
-             cout << endl;
-             cout << endl;
-             cout << "DELTA Y" << endl;
-             for (int s=0; s<agent.at(0).del_y.size(); s++)
-             {
-             cout << agent.at(0).del_y.at(s) << "\t";
-             }
-             cout << endl;
-             cout << endl;
-             */
+            cout << "Y1" << endl;
+            for (int s=0; s<agent.at(0).y1.size(); s++)
+            {
+                cout << agent.at(0).y1.at(s) << "\t";
+            }
+            cout << endl;
+            cout << endl;
+            cout << "Y1 DOT" << endl;
+            for (int s=0; s<agent.at(0).y1_d.size(); s++)
+            {
+                cout << agent.at(0).y1_d.at(s) << "\t";
+            }
+            cout << endl;
+            cout << endl;
+            cout << "Y1 DOUBLE DOT" << endl;
+            for (int s=0; s<agent.at(0).y1_dd.size(); s++)
+            {
+                cout << agent.at(0).y1_dd.at(s) << "\t";
+            }
+            cout << endl;
+            cout << endl;
+            cout << "Y2" << endl;
+            for (int s=0; s<agent.at(0).y2.size(); s++)
+            {
+                cout << agent.at(0).y2.at(s) << "\t";
+            }
+            cout << endl;
+            cout << endl;
+            cout << "Y2 DOT" << endl;
+            for (int s=0; s<agent.at(0).y2_d.size(); s++)
+            {
+                cout << agent.at(0).y2_d.at(s) << "\t";
+            }
+            cout << endl;
+            cout << endl;
+            cout << "Y2 DOUBLE DOT" << endl;
+            for (int s=0; s<agent.at(0).y2_dd.size(); s++)
+            {
+                cout << agent.at(0).y2_dd.at(s) << "\t";
+            }
+            cout << endl;
+            cout << endl;
+            cout << "DELTA Y" << endl;
+            for (int s=0; s<agent.at(0).del_y.size(); s++)
+            {
+                cout << agent.at(0).del_y.at(s) << "\t";
+            }
+            cout << endl;
+            cout << endl;
+            */
+            
             sort_indivduals_fitness();
             Store_Best_Individual();
-            cout << "BEST FITNESS" << endl;
-            cout << agent.at(0).fitness << endl;
+            //cout << "BEST FITNESS" << endl;
+            //cout << agent.at(0).fitness << endl;
             natural_selection();
             Reset_Population();
         }
         else
         {
             Run_Simulation();
-             /*
-             cout << "Acceleration" << endl;
-             for (int s=0; s<agent.at(0).y1.size(); s++)
-             {
-             cout << agent.at(0).accel.at(s) << "\t";
-             }
-             cout << endl;
-             cout << endl;
-             cout << "Y1" << endl;
-             for (int s=0; s<agent.at(0).y1.size(); s++)
-             {
-             cout << agent.at(0).y1.at(s) << "\t";
-             }
-             cout << endl;
-             cout << endl;
-             cout << "Y1 DOT" << endl;
-             for (int s=0; s<agent.at(0).y1_d.size(); s++)
-             {
-             cout << agent.at(0).y1_d.at(s) << "\t";
-             }
-             cout << endl;
-             cout << endl;
-             cout << "Y2" << endl;
-             for (int s=0; s<agent.at(0).y2.size(); s++)
-             {
-             cout << agent.at(0).y2.at(s) << "\t";
-             }
-             cout << endl;
-             cout << endl;
-             cout << "Y2 DOT" << endl;
-             for (int s=0; s<agent.at(0).y2_d.size(); s++)
-             {
-             cout << agent.at(0).y2_d.at(s) << "\t";
-             }
-             cout << endl;
-             cout << endl;
-             cout << "DELTA Y" << endl;
-             for (int s=0; s<agent.at(0).del_y.size(); s++)
-             {
-             cout << agent.at(0).del_y.at(s) << "\t";
-             }
-             cout << endl;
-             cout << endl;
-             */
+            /*
+            cout << "Y1" << endl;
+            for (int s=0; s<agent.at(0).y1.size(); s++)
+            {
+                cout << agent.at(0).y1.at(s) << "\t";
+            }
+            cout << endl;
+            cout << endl;
+            cout << "Y1 DOT" << endl;
+            for (int s=0; s<agent.at(0).y1_d.size(); s++)
+            {
+                cout << agent.at(0).y1_d.at(s) << "\t";
+            }
+            cout << endl;
+            cout << endl;
+            cout << "Y1 DOUBLE DOT" << endl;
+            for (int s=0; s<agent.at(0).y1_dd.size(); s++)
+            {
+                cout << agent.at(0).y1_dd.at(s) << "\t";
+            }
+            cout << endl;
+            cout << endl;
+            cout << "Y2" << endl;
+            for (int s=0; s<agent.at(0).y2.size(); s++)
+            {
+                cout << agent.at(0).y2.at(s) << "\t";
+            }
+            cout << endl;
+            cout << endl;
+            cout << "Y2 DOT" << endl;
+            for (int s=0; s<agent.at(0).y2_d.size(); s++)
+            {
+                cout << agent.at(0).y2_d.at(s) << "\t";
+            }
+            cout << endl;
+            cout << endl;
+            cout << "Y2 DOUBLE DOT" << endl;
+            for (int s=0; s<agent.at(0).y2_dd.size(); s++)
+            {
+                cout << agent.at(0).y2_dd.at(s) << "\t";
+            }
+            cout << endl;
+            cout << endl;
+            cout << "DELTA Y" << endl;
+            for (int s=0; s<agent.at(0).del_y.size(); s++)
+            {
+                cout << agent.at(0).del_y.at(s) << "\t";
+            }
+            cout << endl;
+            cout << endl;
+            */
             sort_indivduals_fitness();
             Store_Best_Individual();
             Run_Text_files();
+            cout << "FINAL GENERATION" << endl;
             cout << "BEST FITNESS" << endl;
             cout << agent.at(0).fitness << endl;
             /*

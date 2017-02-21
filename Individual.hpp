@@ -44,7 +44,8 @@ public:
     vector<double> y1_d;
     vector<double> y2;
     vector<double> y2_d;
-    vector<double> accel;
+    vector<double> y2_dd;
+    vector<double> y1_dd;
     vector<double> x;
     vector<double> del_y;
     double fitness;
