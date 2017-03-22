@@ -47,9 +47,10 @@ public:
     void Get_New_y1_dd(double t, int ts, Individual* pI);
     void Store_Delta_y(double t, int ts, Individual* pI);
     void Run_Time_Step(double t, int ts, Individual* pI);
+    void Run_Normal_Wave(Individual* pI);
+    void Run_Bumpy_Wave(Individual* pI);
     void Assign_Fitness(Individual* pI);
     void Simulate(Individual* PI);
-    
     
 private:
 };
@@ -62,15 +63,34 @@ private:
 //Sets the intial conditions for the individual
 void Simulator::Initialize_Agent(Individual* pI)
 {
-    double pi = 3.14159;
-    pI->x.push_back(0);
-    pI->y2.push_back(0);
-    pI->y2_d.push_back(pP->omega*pP->amp*cos(((2*pi)/pP->lamda)*(pI->x.at(0)-pP->travel_speed*pP->delta_t)));
-    pI->y2_dd.push_back(-pP->omega*pP->omega*pP->amp*sin(((2*pi)/pP->lamda)*(pI->x.at(0)-pP->travel_speed*pP->delta_t)));
-    pI->y1.push_back(pP->spring_free_length);
-    pI->y1_d.push_back(0);
-    pI->y1_dd.push_back(0);
-    pI->del_y.push_back(pI->y1.at(0)-pP->spring_free_length);
+    if (pP->normal_wave == 1)
+    {
+        double pi = 3.14159;
+        pI->x.push_back(0);
+        pI->y2.push_back(0);
+        pI->y2_d.push_back(pP->omega_1*pP->amp_1*cos(((2*pi)/pP->lamda_1)*(pI->x.at(0)-pP->travel_speed_1*pP->delta_t)));
+        pI->y2_dd.push_back(-pP->omega_1*pP->omega_1*pP->amp_1*sin(((2*pi)/pP->lamda_1)*(pI->x.at(0)-pP->travel_speed_1*pP->delta_t)));
+        pI->y1.push_back(pP->spring_free_length);
+        pI->y1_d.push_back(0);
+        pI->y1_dd.push_back(0);
+        pI->del_y.push_back(pI->y1.at(0)-pP->spring_free_length);
+    }
+    if (pP->bumpy_wave == 1)
+    {
+        double pi = 3.14159;
+        pI->x.push_back(0);
+        pI->y2.push_back(0);
+        double w1_d = pP->omega_1*pP->amp_1*cos(((2*pi)/pP->lamda_1)*(pI->x.at(0)-pP->travel_speed_1*pP->delta_t));
+        double w2_d = pP->omega_2*pP->amp_2*cos(((2*pi)/pP->lamda_2)*(pI->x.at(0)-pP->travel_speed_2*pP->delta_t));
+        pI->y2_d.push_back(w1_d+w2_d);
+        double w1_dd = -pP->omega_1*pP->omega_1*pP->amp_1*sin(((2*pi)/pP->lamda_1)*(pI->x.at(0)-pP->travel_speed_1*pP->delta_t));
+        double w2_dd = -pP->omega_2*pP->omega_2*pP->amp_2*sin(((2*pi)/pP->lamda_2)*(pI->x.at(0)-pP->travel_speed_2*pP->delta_t));
+        pI->y2_dd.push_back(w1_dd+w2_dd);
+        pI->y1.push_back(pP->spring_free_length);
+        pI->y1_d.push_back(0);
+        pI->y1_dd.push_back(0);
+        pI->del_y.push_back(pI->y1.at(0)-pP->spring_free_length);
+    }
 }
 
 
@@ -78,20 +98,13 @@ void Simulator::Initialize_Agent(Individual* pI)
 //Gets the new y1 double dot
 void Simulator::Get_New_y1_dd(double t, int ts, Individual* pI)
 {
-    double A = (pI->y2.at(ts-1) - (pI->y1.at(ts-1))) + pP->spring_free_length;
+    double A = (pI->y2.at(ts-1) - pI->y1.at(ts-1)) + pP->spring_free_length;
     double B = pI->y2_d.at(ts-1) - pI->y1_d.at(ts-1);
     double C = pI->K1*A;
     double D = pI->K2*A*A*A;
     double E = pI->C1*B;
     double F = pI->C2*B*B*B;
-    
-    //cout << "-----" << endl;
-    //cout << A << endl;
-    //cout << B << endl;
-    //cout << C << endl;
-    //cout << D << endl;
-    //cout << E << endl;
-    //cout << F << endl;
+
     pI->y1_dd.push_back((C+D+E+F)/pP->mass);
 }
 
@@ -108,13 +121,31 @@ void Simulator::Get_New_x(double t, int ts, Individual* pI)
 //Gets the new y2
 void Simulator::Get_New_y2(double t, int ts, Individual* pI)
 {
-    int pi = 3.14159;
-    double A = (2*pi)/pP->lamda;
-    double B = pI->x.at(ts);
-    double C = pP->travel_speed*pP->delta_t;
-    pI->y2.push_back(pP->amp*sin(A*(B+C)));
-    assert (pI->y2.at(ts) <= pP->amp+.1);
-    assert (pI->y2.at(ts) >= -pP->amp-.1);
+    if (pP->normal_wave == 1)
+    {
+        int pi = 3.14159;
+        double A = (2*pi)/pP->lamda_1;
+        double B = pI->x.at(ts);
+        double C = pP->travel_speed_1*pP->delta_t;
+        pI->y2.push_back(pP->amp_1*sin(A*(B+C)));
+        assert (pI->y2.at(ts) <= pP->amp_1+.1);
+        assert (pI->y2.at(ts) >= -pP->amp_1-.1);
+    }
+    if (pP->bumpy_wave == 1)
+    {
+        int pi = 3.14159;
+        double A = (2*pi)/pP->lamda_1;
+        double B = pI->x.at(ts);
+        double C = pP->travel_speed_1*pP->delta_t;
+        double D = (2*pi)/pP->lamda_2;
+        double E = pI->x.at(ts);
+        double F = pP->travel_speed_2*pP->delta_t;
+        double w1 = pP->amp_1*sin(A*(B+C));
+        double w2 = pP->amp_2*sin(D*(E+F));
+        pI->y2.push_back(w1+w2);
+        //assert (pI->y2.at(ts) <= pP->amp_1+.1);
+        //assert (pI->y2.at(ts) >= -pP->amp_1-.1);
+    }
 }
 
 
@@ -122,12 +153,30 @@ void Simulator::Get_New_y2(double t, int ts, Individual* pI)
 //Gets the new y2 dot
 void Simulator::Get_New_y2_d(double t, int ts, Individual* pI)
 {
-    int pi = 3.14159;
-    double A = pP->omega*pP->amp;
-    double B = (2*pi)/pP->lamda;
-    double C = pI->x.at(ts);
-    double D = pP->travel_speed*pP->delta_t;
-    pI->y2_d.push_back(A*cos(B*(C+D)));
+    if (pP->normal_wave == 1)
+    {
+        int pi = 3.14159;
+        double A = pP->omega_1*pP->amp_1;
+        double B = (2*pi)/pP->lamda_1;
+        double C = pI->x.at(ts);
+        double D = pP->travel_speed_1*pP->delta_t;
+        pI->y2_d.push_back(A*cos(B*(C+D)));
+    }
+    if (pP->bumpy_wave == 1)
+    {
+        int pi = 3.14159;
+        double A = pP->omega_1*pP->amp_1;
+        double B = (2*pi)/pP->lamda_1;
+        double C = pI->x.at(ts);
+        double D = pP->travel_speed_1*pP->delta_t;
+        double E = pP->omega_2*pP->amp_2;
+        double F = (2*pi)/pP->lamda_2;
+        double G = pI->x.at(ts);
+        double H = pP->travel_speed_2*pP->delta_t;
+        double w1_d = A*cos(B*(C+D));
+        double w2_d = E*cos(F*(G+H));
+        pI->y2_d.push_back(w1_d+w2_d);
+    }
 }
 
 
@@ -135,12 +184,30 @@ void Simulator::Get_New_y2_d(double t, int ts, Individual* pI)
 //Gets the new y2 double dot
 void Simulator::Get_New_y2_dd(double t, int ts, Individual* pI)
 {
-    int pi = 3.14159;
-    double A = pP->omega*pP->omega*pP->amp;
-    double B = (2*pi)/pP->lamda;
-    double C = pI->x.at(ts);
-    double D = pP->travel_speed*pP->delta_t;
-    pI->y2_dd.push_back(-A*sin(B*(C+D)));
+    if (pP->normal_wave == 1)
+    {
+        int pi = 3.14159;
+        double A = pP->omega_1*pP->omega_1*pP->amp_1;
+        double B = (2*pi)/pP->lamda_1;
+        double C = pI->x.at(ts);
+        double D = pP->travel_speed_1*pP->delta_t;
+        pI->y2_dd.push_back(-A*sin(B*(C+D)));
+    }
+    if (pP->bumpy_wave == 1)
+    {
+        int pi = 3.14159;
+        double A = pP->omega_1*pP->omega_1*pP->amp_1;
+        double B = (2*pi)/pP->lamda_1;
+        double C = pI->x.at(ts);
+        double D = pP->travel_speed_1*pP->delta_t;
+        double E = pP->omega_2*pP->omega_2*pP->amp_2;
+        double F = (2*pi)/pP->lamda_2;
+        double G = pI->x.at(ts);
+        double H = pP->travel_speed_2*pP->delta_t;
+        double w1_dd = -A*sin(B*(C+D));
+        double w2_dd = -E*sin(F*(G+H));
+        pI->y2_dd.push_back(w1_dd+w2_dd);
+    }
 }
 
 
