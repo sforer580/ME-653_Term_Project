@@ -57,7 +57,7 @@ public:
     int gen_max = 2000;
     double mutation_rate = 0.5;                                 //[num*100=>%]
     int to_kill = num_indv/2;
-    int num_sr = 2;
+    int num_sr = 5;
     
     //Simulator Parameters
     double time_max = 10;                                       //[seconds]

@@ -53,10 +53,19 @@ public:
     void Run_Program();
     
     //Statistics
+    vector<double> y1;
+    vector<double> y1_d;
+    vector<double> y1_dd;
+    vector<double> y2;
+    vector<double> y2_d;
+    vector<double> y2_dd;
+    vector<double> x;
+    vector<double> del_y;
     vector<double> best_fitness;            //keeps track of the best individuals fitness for each generation
     vector<double> sys_design;              //keeps track of the best individuals design for each generation
     
     void Delete_Text_Files();
+    void Store_Simulation_Data();
     void Write_Parameters_To_txt_File();
     void Store_Best_Individual();
     void Write_Best_Fitness_To_txt_File();
@@ -262,6 +271,24 @@ void EA::Store_Best_Individual()
 
 
 //-------------------------------------------------------------------------
+//Stores the data for the simulations
+void EA::Store_Simulation_Data()
+{
+    for (int i=0; i<agent.at(0).y1.size(); i++)
+    {
+        y1.push_back(agent.at(0).y1.at(i));
+        y1_d.push_back(agent.at(0).y1_d.at(i));
+        y1_dd.push_back(agent.at(0).y1_dd.at(i));
+        y2.push_back(agent.at(0).y2.at(i));
+        y2_d.push_back(agent.at(0).y2_d.at(i));
+        y2_dd.push_back(agent.at(0).y2_dd.at(i));
+        x.push_back(agent.at(0).x.at(i));
+        del_y.push_back(agent.at(0).del_y.at(i));
+    }
+}
+
+
+//-------------------------------------------------------------------------
 //Writes the parameters to txt files
 void EA::Write_Parameters_To_txt_File()
 {
@@ -360,7 +387,7 @@ void EA::Write_Best_Individual_To_txt_File()
     File3.close();
     
     ofstream File4;
-    File4.open("Best_Individual_y1.txt", ios_base::app);
+    File4.open("Best_Individual_y1.txt");
     for (int s=0; s<agent.at(0).y1.size(); s++)
     {
         File4 << agent.at(0).y1.at(s) << "\t";
@@ -369,7 +396,7 @@ void EA::Write_Best_Individual_To_txt_File()
     File4.close();
     
     ofstream File5;
-    File5.open("Best_Individual_y1_d.txt", ios_base::app);
+    File5.open("Best_Individual_y1_d.txt");
     for (int s=0; s<agent.at(0).y1_d.size(); s++)
     {
         File5 << agent.at(0).y1_d.at(s) << "\t";
@@ -378,7 +405,7 @@ void EA::Write_Best_Individual_To_txt_File()
     File5.close();
     
     ofstream File6;
-    File6.open("Best_Individual_y1_dd.txt", ios_base::app);
+    File6.open("Best_Individual_y1_dd.txt");
     for (int s=0; s<agent.at(0).y1_dd.size(); s++)
     {
         File6 << agent.at(0).y1_dd.at(s) << "\t";
@@ -387,7 +414,7 @@ void EA::Write_Best_Individual_To_txt_File()
     File6.close();
     
     ofstream File7;
-    File7.open("Best_Individual_y2.txt", ios_base::app);
+    File7.open("Best_Individual_y2.txt");
     for (int s=0; s<agent.at(0).y2.size(); s++)
     {
         File7 << agent.at(0).y2.at(s) << "\t";
@@ -396,7 +423,7 @@ void EA::Write_Best_Individual_To_txt_File()
     File7.close();
     
     ofstream File8;
-    File8.open("Best_Individual_y2_d.txt", ios_base::app);
+    File8.open("Best_Individual_y2_d.txt");
     for (int s=0; s<agent.at(0).y2_d.size(); s++)
     {
         File8 << agent.at(0).y2_d.at(s) << "\t";
@@ -405,7 +432,7 @@ void EA::Write_Best_Individual_To_txt_File()
     File8.close();
     
     ofstream File9;
-    File9.open("Best_Individual_y2_dd.txt", ios_base::app);
+    File9.open("Best_Individual_y2_dd.txt");
     for (int s=0; s<agent.at(0).y2_dd.size(); s++)
     {
         File9 << agent.at(0).y2_dd.at(s) << "\t";
@@ -414,7 +441,7 @@ void EA::Write_Best_Individual_To_txt_File()
     File9.close();
     
     ofstream File10;
-    File10.open("Best_Individual_x.txt", ios_base::app);
+    File10.open("Best_Individual_x.txt");
     for (int s=0; s<agent.at(0).x.size(); s++)
     {
         File10 << agent.at(0).x.at(s) << "\t";
@@ -423,7 +450,7 @@ void EA::Write_Best_Individual_To_txt_File()
     File10.close();
     
     ofstream File11;
-    File11.open("Best_Individual_del_y.txt", ios_base::app);
+    File11.open("Best_Individual_del_y.txt");
     for (int s=0; s<agent.at(0).del_y.size(); s++)
     {
         File11 << agent.at(0).del_y.at(s) << "\t";
@@ -525,6 +552,16 @@ void EA::Debug()
 void EA::Clear_Population()
 {
     agent.clear();
+    /*
+    y1.clear();
+    y1_d.clear();
+    y1_dd.clear();
+    y2.clear();
+    y2_d.clear();
+    y2_dd.clear();
+    x.clear();
+    del_y.clear();
+    */
 }
 
 
@@ -632,6 +669,7 @@ void EA::Run_Program()
                 Debug();
                 sort_indivduals_fitness();
                 Store_Best_Individual();
+                //Store_Simulation_Data();
                 Run_Text_files();
                 cout << "FINAL GENERATION" << endl;
                 cout << "BEST FITNESS" << endl;
